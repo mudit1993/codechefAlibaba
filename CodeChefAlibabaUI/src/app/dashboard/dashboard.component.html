@@ -1,0 +1,95 @@
+<nav class="navbar navbar-expand-xl  fixed-top flex-md-nowrap p-0 shadow navbar-dark bg-dark">
+  <a class="navbar-brand  col-sm-3 col-md-2 mr-0" href="#">Annual CodeChef Report</a>
+</nav>
+<div class="container-fluid">
+  <div class="row">
+
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h1"></h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+          <div class="btn-group mr-2">
+            <button class="btn btn-sm btn-outline-secondary" (click)="onFetchData()">Fetch Data</button>
+          </div>
+          <div class="btn-group mr-2">
+            <button class="btn btn-sm btn-outline-secondary" (click)="onViewRankList()">{{sortAvgScore? "Sort By Total Score" :"Sort By Average Score"}}</button>
+          </div>
+          <div>
+            <select (change)="selectYear($event.target.value)" class="form-control">
+              <option *ngFor="let year of yearList" value={{year}}>
+                {{year}}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <h2>Ranks {{sortAvgScore? "(By Average Score)" :"(By Total Score)"}} - {{selectedYear}}</h2>
+      <div class="table-responsive">
+        <table id="rankTable" class="table table-dark table-striped table-sm">
+          <thead>
+            <tr>
+              <th *ngFor="let col of columns">{{col}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let rep of reports; let rowIndex=index">
+              <td>{{rowIndex+1}}</td>
+              <td>{{rep.userId.userName}}</td>
+              <td>{{rep.country}}</td>
+              <td>{{rep.totalScore | number:'.2-2'}}</td>
+              <td>{{rep.noOfContest}}</td>
+              <td>{{(rep.totalScore / rep.noOfContest) | number:'.2-2'}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Bootstrap core JavaScript
+    ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+  crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+<script src="../../assets/js/vendor/popper.min.js"></script>
+<script src="../../dist/js/bootstrap.min.js"></script>
+
+<!-- Icons -->
+<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+<script>
+  feather.replace()
+</script>
+
+<!-- Graphs -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<script>
+  var ctx = document.getElementById("myChart");
+  var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      datasets: [{
+        data: [15339, 21345, 18483, 24003, 23489, 24092, 12034],
+        lineTension: 0,
+        backgroundColor: 'transparent',
+        borderColor: '#007bff',
+        borderWidth: 4,
+        pointBackgroundColor: '#007bff'
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: false
+          }
+        }]
+      },
+      legend: {
+        display: false,
+      }
+    }
+  });
+</script>
